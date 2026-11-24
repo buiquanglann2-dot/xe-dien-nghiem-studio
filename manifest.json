@@ -1,0 +1,18 @@
+{
+  "name": "Xe Điện Nghiêm Studio",
+  "short_name": "XĐN Studio",
+  "description": "Tạo video review xe điện chuyên nghiệp ngay trên iPhone - Xe Điện Nghiêm",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0d12",
+  "theme_color": "#0b0d12",
+  "icons": [
+    {
+      "src": "./assets/png/logo_xdn.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

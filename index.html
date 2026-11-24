@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="XĐN Studio" />
+  <link rel="apple-touch-icon" href="./assets/png/logo_xdn.png" />
+  <link rel="manifest" href="./manifest.json" />
+  <title>Xe Điện Nghiêm Studio — Tạo Video Trên iPhone</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="./assets/png/logo_xdn.png" alt="Logo" />
+      <div>
+        <h1>XE ĐIỆN NGHIÊM STUDIO</h1>
+        <p>Chạy 100% trên iPhone · 0đ/tháng</p>
+      </div>
+    </div>
+    <button id="btnInstallTip" class="chip-btn" type="button">Cài vào Màn hình</button>
+  </header>
+
+  <main class="container">
+    <!-- 1. Preview 9:16 -->
+    <section class="card preview-card">
+      <div class="preview-wrap">
+        <canvas id="previewCanvas" width="720" height="1280"></canvas>
+        <div id="emptyState" class="empty-overlay">
+          <p>📱 Chọn video quay từ Album iPhone</p>
+          <label class="primary-btn file-btn">
+            + Chọn Video Gốc
+            <input id="videoInput" type="file" accept="video/*" />
+          </label>
+        </div>
+      </div>
+
+      <div class="player-controls">
+        <button id="btnPlayPause" class="ctrl-btn" type="button" disabled>▶ Xem thử</button>
+        <input id="seekBar" type="range" min="0" max="100" value="0" step="0.1" disabled />
+        <span id="timeLabel">00.0s / 00.0s</span>
+      </div>
+
+      <div class="quick-actions">
+        <label class="sec-btn file-btn">
+          Đổi video khác
+          <input id="videoInput2" type="file" accept="video/*" />
+        </label>
+        <select id="resSelect" class="sec-select">
+          <option value="720x1280" selected>720×1280 (Nhanh cho iPhone)</option>
+          <option value="1080x1920">1080×1920 (Full HD)</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- 2. Audio & Color Options -->
+    <section class="card">
+      <h2>2. Màu sắc & Âm thanh (Bỏ khâu làm da)</h2>
+      <div class="toggle-grid">
+        <label class="toggle-item">
+          <input id="chkColor" type="checkbox" checked />
+          <span>Chỉnh màu Clear/Fresh (+Sáng, +Ấm)</span>
+        </label>
+        <label class="toggle-item">
+          <input id="chkBgm" type="checkbox" checked />
+          <span>Nhạc nền 116 BPM (tự nhỏ khi nói)</span>
+        </label>
+        <label class="toggle-item">
+          <input id="chkSfx" type="checkbox" checked />
+          <span>Hiệu ứng Pop / Whoosh / Ding</span>
+        </label>
+        <label class="toggle-item">
+          <input id="chkShowroom" type="checkbox" checked />
+          <span>Hiện tên quán + Địa chỉ cuối video</span>
+        </label>
+      </div>
+      <div class="row-slider">
+        <span>Âm lượng nhạc nền:</span>
+        <input id="bgmVol" type="range" min="0" max="40" value="14" />
+        <span id="bgmVolVal">14%</span>
+      </div>
+    </section>
+
+    <!-- 3. Showroom Address Lockup -->
+    <section class="card" id="showroomSection">
+      <h2>3. Khung kết Showroom (Hiện chung 1 khung cuối)</h2>
+      <div class="grid-2">
+        <input id="shopName" type="text" value="XE ĐIỆN NGHIÊM" placeholder="Tên cửa hàng" />
+        <input id="shopAddr" type="text" value="357 TRẦN PHÚ" placeholder="Địa chỉ" />
+        <input id="shopCity" type="text" value="TUY PHƯỚC · GIA LAI" placeholder="Khu vực" />
+        <input id="shopZalo" type="text" value="ZALO: 0818 553 368" placeholder="Zalo / Hotline" />
+      </div>
+      <div class="row-slider">
+        <span>Hiện từ giây:</span>
+        <input id="finStart" type="number" step="0.5" value="33.5" class="num-in" />
+        <span>giây đến hết video</span>
+      </div>
+    </section>
+
+    <!-- 4. Timeline Text Editor -->
+    <section class="card">
+      <div class="sec-head">
+        <h2>4. Chữ & Hiệu ứng theo giây</h2>
+        <div class="head-btns">
+          <button id="btnLoadSample" class="chip-btn" type="button">Mẫu Xe Cốp Rộng</button>
+          <button id="btnAddBeat" class="chip-btn gold" type="button">+ Thêm nhịp</button>
+        </div>
+      </div>
+      <div id="beatList" class="beat-list"></div>
+    </section>
+
+    <!-- 5. Export Section -->
+    <section class="card export-card">
+      <div id="progressBox" class="progress-box hidden">
+        <div class="progress-text">
+          <span id="progressLabel">Đang xuất video...</span>
+          <span id="progressPct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <button id="btnExport" class="primary-btn big-btn" type="button" disabled>
+        🎬 Xuất Video Hoàn Chỉnh
+      </button>
+
+      <div id="downloadBox" class="download-box hidden">
+        <p>✅ Đã xuất xong! Bấm nút bên dưới để lưu vào Album Ảnh iPhone:</p>
+        <div class="dl-actions">
+          <button id="btnShareSave" class="primary-btn" type="button">📲 Lưu về Album iPhone</button>
+          <a id="dlLink" class="sec-btn" download="xe_dien_nghiem_review.mp4">⬇ Tải file trực tiếp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <video id="srcVideo" playsinline webkit-playsinline muted style="display:none;"></video>
+  <script src="./app.js"></script>
+</body>
+</html>
